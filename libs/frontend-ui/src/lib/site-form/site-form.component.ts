@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { Site } from '@solargis-workspace/shared-types';
 
 export type SiteFormValue = Omit<Site, 'id'>;
@@ -8,7 +9,7 @@ export type SiteFormValue = Omit<Site, 'id'>;
 @Component({
   selector: 'lib-site-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './site-form.component.html',
   styleUrls: ['./site-form.component.css'],
 })

@@ -10,12 +10,11 @@ import { SiteFormComponent, SiteFormValue } from '@solargis-workspace/frontend-u
   imports: [CommonModule, SiteFormComponent],
   template: `
     <div class="max-w-3xl mx-auto py-6 space-y-4" data-testid="site-form-page">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-start">
         <div>
           <p class="text-sm uppercase tracking-[0.12em] text-muted">Create</p>
-          <h1 class="text-2xl font-semibold text-text">Create Site</h1>
+          <h2 class="text-2xl font-semibold text-text">Add New Site</h2>
         </div>
-        <button class="text-sm text-muted hover:text-text focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-bg rounded" routerLink="/sites" data-testid="back-to-list">← Back</button>
       </div>
 
       <lib-site-form (submitSite)="onSubmit($event)"></lib-site-form>
