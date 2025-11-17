@@ -1,0 +1,18 @@
+# Robot Framework E2E Test Dependencies
+# Pin versions for reproducible test environments
+
+# Core Robot Framework
+robotframework>=7.0,<8.0
+
+# Browser automation library (Playwright-based)
+robotframework-browser==19.1.0
+
+# Optional: HTTP/REST API testing support
+robotframework-requests>=0.9.0,<1.0.0
+
+# Optional: Enhanced assertions
+robotframework-assertions>=1.0.0,<2.0.0
+
+# Installation instructions:
+# 1. Install dependencies: uv pip install -r apps/e2e/requirements.txt
+# 2. Initialize Playwright browsers: rfbrowser init

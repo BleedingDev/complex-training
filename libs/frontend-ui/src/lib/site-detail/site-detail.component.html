@@ -1,0 +1,36 @@
+<div class="rounded-xl border border-border bg-panel/80 shadow-soft p-5 space-y-4" data-testid="site-detail-card">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <h2 class="text-2xl font-semibold text-text" data-testid="site-detail-name">{{ site.name }}</h2>
+      <p class="text-sm text-muted" data-testid="site-detail-location">{{ site.location }}</p>
+    </div>
+    <span
+      class="text-xs px-2.5 py-1 rounded-lg bg-border text-text capitalize"
+      [ngClass]="{
+        'text-success bg-success/15 border border-success/30': site.status === 'active',
+        'text-accent bg-accent/15 border border-accent/30': site.status === 'maintenance',
+        'text-danger bg-danger/15 border border-danger/30': site.status === 'offline'
+      }"
+      data-testid="site-detail-status"
+    >
+      {{ site.status }}
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-text">
+    <div class="rounded-lg border border-border bg-surface/60 p-4" data-testid="site-detail-capacity">
+      <p class="text-muted text-xs" id="capacity-label">Capacity</p>
+      <p class="text-xl font-semibold" aria-labelledby="capacity-label">{{ site.capacity_kw | number:'1.0-0' }} kW</p>
+    </div>
+    <div class="rounded-lg border border-border bg-surface/60 p-4" data-testid="site-detail-forecast" *ngIf="forecast; else forecastFallback">
+      <p class="text-muted text-xs" id="forecast-label">Forecast ({{ forecast.date | date:'mediumDate' }})</p>
+      <p class="text-xl font-semibold" aria-labelledby="forecast-label">{{ forecast.expected_generation_kwh | number:'1.0-2' }} kWh</p>
+      <p class="text-xs text-muted" id="irradiance-label">Irradiance: {{ forecast.irradiance_wm2 | number:'1.0-2' }} W/m²</p>
+    </div>
+    <ng-template #forecastFallback>
+      <div class="rounded-lg border border-border bg-surface/60 p-4 text-muted text-xs col-span-1 md:col-span-2" role="status" aria-live="polite">
+        Forecast unavailable.
+      </div>
+    </ng-template>
+  </div>
+</div>

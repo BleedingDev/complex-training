@@ -1,0 +1,91 @@
+<form class="space-y-5" (ngSubmit)="submit()" [formGroup]="form" data-testid="site-form">
+  <div class="space-y-1">
+    <label class="text-sm text-slate-200" for="name">Name</label>
+    <input
+      id="name"
+      data-testid="site-name-input"
+      class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-text placeholder:text-muted focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent"
+      type="text"
+      formControlName="name"
+      required
+      aria-invalid="{{ form.controls.name.invalid }}"
+      aria-describedby="name-error"
+    />
+    <p id="name-error" role="alert" data-testid="error-name" class="text-xs" [class.text-danger]="form.controls.name.invalid && form.controls.name.touched" [class.sr-only]="!(form.controls.name.invalid && form.controls.name.touched)">
+      Name is required (min 2 chars)
+    </p>
+  </div>
+
+  <div class="space-y-1">
+    <label class="text-sm text-slate-200" for="location">Location</label>
+    <input
+      id="location"
+      data-testid="site-location-input"
+      class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-text placeholder:text-muted focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent"
+      type="text"
+      formControlName="location"
+      required
+      aria-invalid="{{ form.controls.location.invalid }}"
+      aria-describedby="location-error"
+    />
+    <p id="location-error" role="alert" data-testid="error-location" class="text-xs" [class.text-danger]="form.controls.location.invalid && form.controls.location.touched" [class.sr-only]="!(form.controls.location.invalid && form.controls.location.touched)">
+      Location is required
+    </p>
+  </div>
+
+  <div class="space-y-1">
+    <label class="text-sm text-slate-200" for="capacity">Capacity (kW)</label>
+    <input
+      id="capacity"
+      data-testid="site-capacity-input"
+      class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-text placeholder:text-muted focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent"
+      type="number"
+      formControlName="capacity_kw"
+      min="1"
+      required
+      aria-invalid="{{ form.controls.capacity_kw.invalid }}"
+      aria-describedby="capacity-error"
+    />
+    <p id="capacity-error" role="alert" data-testid="error-capacity" class="text-xs" [class.text-danger]="form.controls.capacity_kw.invalid && form.controls.capacity_kw.touched" [class.sr-only]="!(form.controls.capacity_kw.invalid && form.controls.capacity_kw.touched)">
+      Capacity must be greater than 0
+    </p>
+  </div>
+
+  <div class="space-y-1">
+    <label class="text-sm text-slate-200" for="status">Status</label>
+    <select
+      id="status"
+      data-testid="site-status-select"
+      class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-text focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent"
+      formControlName="status"
+      required
+      aria-required="true"
+      aria-describedby="status-help"
+    >
+      <option value="active">Active</option>
+      <option value="maintenance">Maintenance</option>
+      <option value="offline">Offline</option>
+    </select>
+    <p id="status-help" class="text-xs text-muted sr-only">
+      Select the operational status of the site
+    </p>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <button
+      type="submit"
+      data-testid="submit-button"
+      class="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-surface shadow-soft transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-bg"
+    >
+      Save Site
+    </button>
+    <button
+      type="button"
+      data-testid="cancel-button"
+      class="text-sm text-muted hover:text-text focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-bg"
+      routerLink="/sites"
+    >
+      Cancel
+    </button>
+  </div>
+</form>

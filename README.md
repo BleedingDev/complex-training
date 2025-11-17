@@ -37,3 +37,9 @@ uv run robot e2e/tests/sites_management.robot
 ## Poznámky
 - Bez Dockeru; běží lokálně na Node + Python.
 - `data-testid` zachováno pro Robot E2E; UI je v dark mode.
+- Backend/Frontend URL lze přepsat env proměnnými (API_URL, FRONTEND_URL); není potřeba žádný Docker.
+
+## VS Code tipy
+- Rozšíření: Nx Console, Prettier, ESLint, Jest Runner (viz `.vscode/extensions.json`).
+- Nastavení: `.vscode/settings.json` zapíná Prettier jako default formatter, formatOnSave a ESLint fix on save.
+- **Test artifact hygiene**: Robot Framework výstupy (log.html, report.html, output.xml) jsou automaticky ignorovány. `robotframework-browser` je pinováno na verzi 19.1.0 pro stabilitu.

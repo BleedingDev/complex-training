@@ -1,0 +1,35 @@
+<div class="rounded-xl border border-border bg-panel/80 shadow-soft">
+  <div class="flex items-center justify-between border-b border-border px-4 py-3">
+    <h2 class="text-sm font-semibold text-text">Sites</h2>
+    <span *ngIf="loading" class="text-xs text-muted">Loading…</span>
+  </div>
+
+  <ng-container *ngIf="!error; else errorTpl">
+    <ul class="divide-y divide-border">
+      <li *ngFor="let site of sites; trackBy: trackBySite">
+        <button
+          type="button"
+          class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-surface/70 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          (click)="onSelect(site)"
+          (keydown.enter)="onSelect(site)"
+          (keydown.space)="onSelect(site); $event.preventDefault()"
+          data-testid="site-item"
+        >
+          <div>
+            <p class="text-base font-semibold text-text">{{ site.name }}</p>
+            <p class="text-xs text-muted">{{ site.location }}</p>
+          </div>
+          <span class="text-xs text-muted">{{ site.capacity_kw }} kW</span>
+        </button>
+      </li>
+
+      <li *ngIf="!loading && sites.length === 0" class="px-4 py-3 text-sm text-muted">
+        No sites yet. Create one to get started.
+      </li>
+    </ul>
+  </ng-container>
+
+  <ng-template #errorTpl>
+    <div class="px-4 py-3 text-sm text-danger">{{ error }}</div>
+  </ng-template>
+</div>
