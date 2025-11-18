@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { SitesService } from "@mifulacm-workspace/frontend-data-access";
 import { SiteListComponent } from "@mifulacm-workspace/frontend-ui";
+import { SiteStatus } from "@mifulacm-workspace/shared-types";
 
 @Component({
 	standalone: true,
@@ -23,6 +24,22 @@ import { SiteListComponent } from "@mifulacm-workspace/frontend-ui";
           + Add Site
         </button>
       </div>
+      <div class="flex items-center gap-3 text-sm text-muted">
+        <label for="status-filter" class="text-xs uppercase tracking-[0.08em]">Status</label>
+        <select
+          id="status-filter"
+          data-testid="status-filter"
+          class="rounded-md border border-border bg-panel px-3 py-2 text-text shadow-soft focus-visible:ring-2 focus-visible:ring-accent"
+          [value]="filter() ?? ''"
+          (change)="onFilterChange($any($event.target).value || null)"
+        >
+          <option value="">All</option>
+          <option value="active">Active</option>
+          <option value="maintenance">Maintenance</option>
+          <option value="offline">Offline</option>
+        </select>
+      </div>
+
       <lib-site-list
         [sites]="sites() ?? []"
         [loading]="loading()"
@@ -39,6 +56,7 @@ export class SitesPage implements OnInit {
 	sites = this.service.sites;
 	loading = this.service.loading;
 	error = this.service.error;
+	filter = signal<SiteStatus | null>(null);
 
 	ngOnInit(): void {
 		this.service.loadSites();
@@ -50,5 +68,11 @@ export class SitesPage implements OnInit {
 
 	onCreate(): void {
 		this.router.navigate(["/sites/new"]);
+	}
+
+	onFilterChange(status: string | null): void {
+		const normalized = (status as SiteStatus | null) || null;
+		this.filter.set(normalized);
+		this.service.loadSites(normalized ?? undefined);
 	}
 }
