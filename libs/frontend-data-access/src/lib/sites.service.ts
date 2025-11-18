@@ -45,7 +45,7 @@ export class SitesService {
 				this.loadingSignal.set(false);
 			},
 			error: () => {
-				this.errorSignal.set("Nepodařilo se načíst seznam lokalit");
+				this.errorSignal.set("Failed to load site list");
 				this.loadingSignal.set(false);
 			},
 		});
