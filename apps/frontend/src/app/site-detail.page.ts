@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit, inject, signal } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { SitesService } from "@mifulacm-workspace/frontend-data-access";
 import { Forecast, Site } from "@mifulacm-workspace/shared-types";
 import { SiteDetailComponent } from "@mifulacm-workspace/frontend-ui";
@@ -8,23 +8,29 @@ import { SiteDetailComponent } from "@mifulacm-workspace/frontend-ui";
 @Component({
 	standalone: true,
 	selector: "app-site-detail-page",
-	imports: [CommonModule, SiteDetailComponent],
+	imports: [CommonModule, SiteDetailComponent, RouterLink],
 	template: `
-    <div class="max-w-4xl mx-auto py-6 space-y-4" data-testid="site-detail-page">
+    <div class="max-w-4xl mx-auto space-y-6" data-testid="site-detail-page">
+      <!-- Header Navigation -->
       <div class="flex items-center justify-between">
-        <button class="text-sm text-muted hover:text-text focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-bg rounded" (click)="goBack()" data-testid="back-to-list">← Back</button>
+        <a routerLink="/sites" class="inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-accent transition-colors">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Sites
+        </a>
       </div>
 
+      <!-- Main Content -->
       <ng-container *ngIf="site(); else loadingTpl">
         <lib-site-detail [site]="site()!" [forecast]="forecast()"></lib-site-detail>
       </ng-container>
 
       <ng-template #loadingTpl>
-        <p class="text-sm text-slate-400" *ngIf="!error(); else errorTpl">Loading site…</p>
-      </ng-template>
-
-      <ng-template #errorTpl>
-        <p class="text-sm text-red-400" data-testid="detail-error">{{ error() }}</p>
+        <div class="glass-panel h-64 animate-pulse rounded-2xl flex items-center justify-center">
+          <p class="text-sm font-medium text-muted">Loading site details...</p>
+        </div>
+        <p class="mt-4 text-sm text-danger" *ngIf="error()" data-testid="detail-error">{{ error() }}</p>
       </ng-template>
     </div>
   `,
@@ -59,9 +65,5 @@ export class SiteDetailPage implements OnInit {
 			next: (f) => this.forecastSignal.set(f),
 			error: () => this.errorSignal.set("Forecast not available"),
 		});
-	}
-
-	goBack(): void {
-		this.router.navigate(["/sites"]);
 	}
 }

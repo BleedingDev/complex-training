@@ -1,36 +1,85 @@
-<div class="rounded-xl border border-border bg-panel/80 shadow-soft p-5 space-y-4" data-testid="site-detail-card">
-  <div class="flex flex-wrap items-center justify-between gap-3">
-    <div>
-      <h2 class="text-2xl font-semibold text-text" data-testid="site-detail-name">{{ site.name }}</h2>
-      <p class="text-sm text-muted" data-testid="site-detail-location">{{ site.location }}</p>
+<div class="space-y-6" data-testid="site-detail-card">
+  <!-- Header Card -->
+  <div class="glass-panel rounded-2xl p-6 sm:p-8">
+    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-3">
+          <div class="h-12 w-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent2 shadow-glow text-white">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white tracking-tight" data-testid="site-detail-name">{{ site.name }}</h2>
+            <p class="text-sm text-muted flex items-center gap-1" data-testid="site-detail-location">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {{ site.location }}
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <span
+        class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1 ring-inset"
+        [ngClass]="{
+          'bg-success/10 text-success ring-success/20': site.status === 'active',
+          'bg-accent/10 text-accent ring-accent/20': site.status === 'maintenance',
+          'bg-danger/10 text-danger ring-danger/20': site.status === 'offline'
+        }"
+        data-testid="site-detail-status"
+      >
+        <span class="mr-1.5 h-2 w-2 rounded-full bg-current"></span>
+        {{ site.status | titlecase }}
+      </span>
     </div>
-    <span
-      class="text-xs px-2.5 py-1 rounded-lg bg-border text-text capitalize"
-      [ngClass]="{
-        'text-success bg-success/15 border border-success/30': site.status === 'active',
-        'text-accent bg-accent/15 border border-accent/30': site.status === 'maintenance',
-        'text-danger bg-danger/15 border border-danger/30': site.status === 'offline'
-      }"
-      data-testid="site-detail-status"
-    >
-      {{ site.status }}
-    </span>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-text">
-    <div class="rounded-lg border border-border bg-surface/60 p-4" data-testid="site-detail-capacity">
-      <p class="text-muted text-xs" id="capacity-label">Capacity</p>
-      <p class="text-xl font-semibold" aria-labelledby="capacity-label">{{ site.capacity_kw | number:'1.0-0' }} kW</p>
-    </div>
-    <div class="rounded-lg border border-border bg-surface/60 p-4" data-testid="site-detail-forecast" *ngIf="forecast; else forecastFallback">
-      <p class="text-muted text-xs" id="forecast-label">Forecast ({{ forecast.date | date:'mediumDate' }})</p>
-      <p class="text-xl font-semibold" aria-labelledby="forecast-label">{{ forecast.expected_generation_kwh | number:'1.0-2' }} kWh</p>
-      <p class="text-xs text-muted" id="irradiance-label">Irradiance: {{ forecast.irradiance_wm2 | number:'1.0-2' }} W/m²</p>
-    </div>
-    <ng-template #forecastFallback>
-      <div class="rounded-lg border border-border bg-surface/60 p-4 text-muted text-xs col-span-1 md:col-span-2" role="status" aria-live="polite">
-        Forecast unavailable.
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <!-- Capacity Card -->
+    <div class="glass-panel rounded-xl p-5 flex flex-col justify-between" data-testid="site-detail-capacity">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm font-medium text-muted" id="capacity-label">Capacity</p>
+        <svg class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+        </svg>
       </div>
-    </ng-template>
+      <p class="text-2xl font-bold text-white" aria-labelledby="capacity-label">{{ site.capacity_kw | number:'1.0-0' }} <span class="text-sm font-normal text-muted">kW</span></p>
+    </div>
+
+    <!-- Forecast Card -->
+    <div class="glass-panel rounded-xl p-5 flex flex-col justify-between col-span-1 sm:col-span-2" data-testid="site-detail-forecast">
+      <ng-container *ngIf="forecast; else forecastFallback">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-muted" id="forecast-label">Forecast for {{ forecast.date | date:'mediumDate' }}</p>
+          <div class="flex items-center gap-1 text-accent2">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-end gap-4">
+           <div>
+              <p class="text-3xl font-bold text-white" aria-labelledby="forecast-label">{{ forecast.expected_generation_kwh | number:'1.0-2' }} <span class="text-sm font-normal text-muted">kWh</span></p>
+           </div>
+           <div class="mb-1 px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-xs text-muted">
+              Irradiance: <span class="text-text font-medium">{{ forecast.irradiance_wm2 | number:'1.0-0' }} W/m²</span>
+           </div>
+        </div>
+      </ng-container>
+      <ng-template #forecastFallback>
+        <div class="h-full flex items-center justify-center text-muted text-sm" role="status" aria-live="polite">
+          <div class="flex items-center gap-2">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Forecast unavailable for this site.
+          </div>
+        </div>
+      </ng-template>
+    </div>
   </div>
 </div>

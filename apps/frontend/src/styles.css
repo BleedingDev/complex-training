@@ -4,39 +4,49 @@
 
 :root {
   color-scheme: dark;
-  --bg: #0b1120;
-  --surface: #0f172a;
-  --panel: #111827;
-  --border: #1f2937;
-  --text: #e5e7eb;
-  --muted: #9ca3af;
-  --accent: #f59e0b;
-  --accent2: #14b8a6;
-  --danger: #f87171;
 }
 
-* {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-bg text-text min-h-screen overflow-x-hidden;
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.08) 0%, transparent 30%),
+      radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 30%);
+  }
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(circle at 20% 20%, rgba(20,184,166,0.08), transparent 35%),
-    radial-gradient(circle at 80% 30%, rgba(245,158,11,0.1), transparent 38%),
-    linear-gradient(180deg, #0b1120 0%, #0a0f1d 50%, #0b1224 100%);
-  color: var(--text);
+@layer components {
+  .glass-panel {
+    @apply bg-panel/40 backdrop-blur-xl border border-white/5 shadow-glass;
+  }
+  
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg bg-accent hover:bg-accent/90 text-white font-medium 
+           transition-all duration-200 shadow-lg shadow-accent/20 
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .input-modern {
+    @apply w-full px-4 py-2.5 rounded-lg bg-surface/50 border border-border 
+           focus:border-accent focus:ring-2 focus:ring-accent/20 
+           outline-none transition-all duration-200 text-sm placeholder:text-muted/60;
+  }
 }
 
-a {
-  color: var(--accent2);
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-
-a:hover {
-  color: #34d399;
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
-
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+::-webkit-scrollbar-thumb {
+  @apply bg-border/50 rounded-full hover:bg-muted/50 transition-colors;
 }

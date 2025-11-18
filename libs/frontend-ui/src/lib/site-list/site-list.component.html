@@ -1,35 +1,67 @@
-<div class="rounded-xl border border-border bg-panel/80 shadow-soft" data-testid="sites-list">
-  <div class="flex items-center justify-between border-b border-border px-4 py-3">
-    <h2 class="text-sm font-semibold text-text">Sites</h2>
-    <span *ngIf="loading" class="text-xs text-muted">Loading…</span>
-  </div>
+<ng-container *ngIf="!error; else errorTpl">
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-testid="sites-list">
+    
+    <!-- Loading State Skeletons -->
+    <ng-container *ngIf="loading">
+      <div *ngFor="let i of [1,2,3]" class="glass-panel h-48 animate-pulse rounded-2xl"></div>
+    </ng-container>
 
-  <ng-container *ngIf="!error; else errorTpl">
-    <ul class="divide-y divide-border">
-      <li *ngFor="let site of sites; trackBy: trackBySite">
-        <button
-          type="button"
-          class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-surface/70 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-          (click)="onSelect(site)"
-          (keydown.enter)="onSelect(site)"
-          (keydown.space)="onSelect(site); $event.preventDefault()"
-          data-testid="site-item"
-        >
-          <div>
-            <p class="text-base font-semibold text-text">{{ site.name }}</p>
-            <p class="text-xs text-muted">{{ site.location }}</p>
+    <!-- Site Cards -->
+    <button
+      *ngFor="let site of sites; trackBy: trackBySite"
+      type="button"
+      class="group relative flex flex-col overflow-hidden rounded-2xl bg-panel/40 border border-white/5 shadow-glass text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-accent/30 focus-visible:ring-2 focus-visible:ring-accent"
+      (click)="onSelect(site)"
+      data-testid="site-item"
+    >
+      <!-- Decorative Gradient Background -->
+      <div class="absolute inset-0 -z-10 bg-gradient-to-br from-accent/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+
+      <div class="flex flex-1 flex-col p-6">
+        <div class="mb-4 flex items-start justify-between">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface border border-white/10 text-accent shadow-inner">
+             <!-- Icon: Lightning/Power -->
+             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+             </svg>
           </div>
-          <span class="text-xs text-muted">{{ site.capacity_kw }} kW</span>
-        </button>
-      </li>
+          <span class="inline-flex items-center rounded-full bg-success/10 px-2.5 py-0.5 text-xs font-medium text-success ring-1 ring-inset ring-success/20">
+            Active
+          </span>
+        </div>
+        
+        <h3 class="text-lg font-semibold text-white group-hover:text-accent transition-colors">{{ site.name }}</h3>
+        <p class="mt-1 text-sm text-muted line-clamp-2">{{ site.location }}</p>
+        
+        <div class="mt-auto pt-6">
+          <div class="flex items-center justify-between border-t border-white/5 pt-4">
+            <span class="text-xs font-medium text-muted">Capacity</span>
+            <span class="text-sm font-bold text-white">{{ site.capacity_kw }} <span class="text-muted font-normal">kW</span></span>
+          </div>
+        </div>
+      </div>
+    </button>
 
-      <li *ngIf="!loading && sites.length === 0" class="px-4 py-3 text-sm text-muted">
-        No sites yet. Create one to get started.
-      </li>
-    </ul>
-  </ng-container>
+    <!-- Empty State -->
+    <div *ngIf="!loading && sites.length === 0" class="col-span-full flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/5 py-12 text-center">
+      <div class="rounded-full bg-surface p-3 ring-1 ring-white/10">
+        <svg class="h-6 w-6 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <h3 class="mt-4 text-sm font-semibold text-white">No sites found</h3>
+      <p class="mt-1 text-sm text-muted">Get started by creating a new site.</p>
+    </div>
+  </div>
+</ng-container>
 
-  <ng-template #errorTpl>
-    <div class="px-4 py-3 text-sm text-danger">{{ error }}</div>
-  </ng-template>
-</div>
+<ng-template #errorTpl>
+  <div class="rounded-xl border border-danger/20 bg-danger/10 p-4 text-sm text-danger">
+    <div class="flex items-center gap-2">
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+      </svg>
+      {{ error }}
+    </div>
+  </div>
+</ng-template>
