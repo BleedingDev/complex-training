@@ -3,7 +3,6 @@ import { Component, OnInit, inject, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { SitesService } from "@mifulacm-workspace/frontend-data-access";
 import { SiteListComponent } from "@mifulacm-workspace/frontend-ui";
-import { SiteStatus } from "@mifulacm-workspace/shared-types";
 
 @Component({
 	standalone: true,
@@ -58,9 +57,9 @@ export class SitesPage implements OnInit {
 	error = this.service.error;
 	filter = signal<SiteStatus | null>(null);
 
-	ngOnInit(): void {
-		this.service.loadSites();
-	}
+  ngOnInit(): void {
+    this.service.loadSites();
+  }
 
 	onSelect(id: number): void {
 		this.router.navigate(["/sites", id]);
@@ -70,9 +69,9 @@ export class SitesPage implements OnInit {
 		this.router.navigate(["/sites/new"]);
 	}
 
-	onFilterChange(status: string | null): void {
-		const normalized = (status as SiteStatus | null) || null;
-		this.filter.set(normalized);
-		this.service.loadSites(normalized ?? undefined);
-	}
+  onFilterChange(status: string | null): void {
+    const normalized = (status as 'active' | 'maintenance' | 'offline' | null) || null;
+    this.filter.set(normalized as any);
+    this.service.loadSites(normalized ?? undefined);
+  }
 }
