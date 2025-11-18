@@ -1,60 +1,60 @@
 # Mifulacm Demo App (Nx: Angular + FastAPI)
 
-## Co potřebujete
-- Node.js 18+ (npm součástí)
-- Python 3.10+ (uv spustí Nx při sync)
+## Requirements
+- Node.js 18+ (npm included)
+- Python 3.10+ (uv is used by Nx during sync)
 - git
 
-## Instalace (poprvé)
+## Installation (first time)
 ```
-npm install              # JS dependency
-npx nx run api:sync      # vytvoří .venv v apps/ a nainstaluje Python deps přes uv
+npm install              # Installs JS dependencies
+npx nx run api:sync      # Creates .venv in apps/ and installs Python deps via uv
 ```
 
-## Spuštění vývoje
+## Start development
 ```
-npm run dev              # FE na http://localhost:4200, BE na http://localhost:8000
+npm run dev              # FE at http://localhost:4200, BE at http://localhost:8000
 ```
-Alternativně samostatně:
+Alternatively, run them separately:
 ```
 npx nx serve api
 npx nx serve frontend -- --host=0.0.0.0 --port=4200
 ```
 
-## Docker (nejjednodušší způsob)
-- Potřebujete jen Docker + Docker Compose.
-- Spustit obě aplikace: `docker compose up --build`
+## Docker (easiest way)
+- You only need Docker + Docker Compose.
+- Start both apps: `docker compose up --build`
   - FE: http://localhost:4200
   - API: http://localhost:8000
-- Spustit všechny testy: `docker compose run --rm tests`
-  - Použije stejné image; pokud změníte závislosti, přidejte `--build`.
+- Run all tests: `docker compose run --rm tests`
+  - Uses the same images; add `--build` if you change dependencies.
 
-### Docker vývoj s hot reloading (ekvivalent `npm run dev`)
-- Spusťte: `docker compose -f docker-compose.dev.yml up --build`
-- Frontend: http://localhost:4200 (Nx dev server s HMR)
+### Docker development with hot reloading (equivalent to `npm run dev`)
+- Run: `docker compose -f docker-compose.dev.yml up --build`
+- Frontend: http://localhost:4200 (Nx dev server with HMR)
 - API: http://localhost:8000 (uvicorn --reload)
-- Konec: `Ctrl+C` a `docker compose -f docker-compose.dev.yml down`
-  - Proxy v dev módě směruje `/api` na službu `api:8000` (viz `proxy.conf.docker.json`).
+- Stop: `Ctrl+C` then `docker compose -f docker-compose.dev.yml down`
+  - The dev proxy routes `/api` to service `api:8000` (see `proxy.conf.docker.json`).
 
-## Testy
+## Tests
 - FE unit: `npx nx test frontend`
 - FE data-access: `npx nx test frontend-data-access`
 - BE pytest: `npx nx test api`
-- E2E (Robot Browser, volitelné):
+- E2E (Robot Browser, optional):
 ```
 cd apps
 uv run pip install robotframework-browser
 uv run rfbrowser init
 uv run robot e2e/tests/sites_management.robot
 ```
-(vyžaduje běžící dev servery)
+(requires running dev servers)
 
-## Poznámky
-- Bez Dockeru; běží lokálně na Node + Python.
-- `data-testid` zachováno pro Robot E2E; UI je v dark mode.
-- Backend/Frontend URL lze přepsat env proměnnými (API_URL, FRONTEND_URL); není potřeba žádný Docker.
+## Notes
+- Without Docker everything runs locally on Node + Python.
+- `data-testid` is preserved for Robot E2E; UI uses dark mode by default.
+- Backend/Frontend URLs can be overridden via env vars (API_URL, FRONTEND_URL); Docker is not required.
 
-## VS Code tipy
-- Rozšíření: Nx Console, Prettier, ESLint, Jest Runner (viz `.vscode/extensions.json`).
-- Nastavení: `.vscode/settings.json` zapíná Prettier jako default formatter, formatOnSave a ESLint fix on save.
-- **Test artifact hygiene**: Robot Framework výstupy (log.html, report.html, output.xml) jsou automaticky ignorovány. `robotframework-browser` je pinováno na verzi 19.1.0 pro stabilitu.
+## VS Code tips
+- Extensions: Nx Console, Prettier, ESLint, Jest Runner (see `.vscode/extensions.json`).
+- Settings: `.vscode/settings.json` enables Prettier as default formatter, formatOnSave, and ESLint fix on save.
+- **Test artifact hygiene**: Robot Framework outputs (log.html, report.html, output.xml) are ignored. `robotframework-browser` is pinned to 19.1.0 for stability.
