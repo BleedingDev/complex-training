@@ -34,6 +34,7 @@ npx nx serve frontend -- --host=0.0.0.0 --port=4200
 - Frontend: http://localhost:4200 (Nx dev server s HMR)
 - API: http://localhost:8000 (uvicorn --reload)
 - Konec: `Ctrl+C` a `docker compose -f docker-compose.dev.yml down`
+  - Proxy v dev módě směruje `/api` na službu `api:8000` (viz `proxy.conf.docker.json`).
 
 ## Testy
 - FE unit: `npx nx test frontend`

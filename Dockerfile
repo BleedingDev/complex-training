@@ -4,7 +4,7 @@
 FROM node:20-bookworm-slim AS node-base
 WORKDIR /workspace
 ENV NX_DAEMON=false
-COPY package*.json nx.json tsconfig.base.json jest.config.ts jest.preset.js eslint.config.mjs proxy.conf.json ./
+COPY package*.json nx.json tsconfig.base.json jest.config.ts jest.preset.js eslint.config.mjs proxy.conf.json proxy.conf.docker.json ./
 RUN npm ci
 
 # Build Angular app
@@ -26,6 +26,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 RUN pip install --no-cache-dir uv
 COPY apps/pyproject.toml apps/uv.lock ./
+COPY apps/README.md README.md
 RUN uv sync --frozen --no-dev --python /usr/local/bin/python
 COPY apps/api api
 EXPOSE 8000

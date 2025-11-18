@@ -16,7 +16,7 @@ services:
       context: .
       target: node-base
     working_dir: /workspace
-    command: npx nx serve frontend -- --host=0.0.0.0 --port=4200
+    command: npx nx serve frontend -- --host=0.0.0.0 --port=4200 --proxy-config=proxy.conf.docker.json
     environment:
       NX_DAEMON: "false"
       CHOKIDAR_USEPOLLING: "true"
