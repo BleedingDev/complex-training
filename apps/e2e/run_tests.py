@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-E2E Test Runner for Solargis Demo App
+E2E Test Runner for Mifulacm Demo App
 
 This script provides a Python-based interface for running Robot Framework E2E tests.
 """
@@ -125,7 +125,7 @@ def run_robot_tests(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="E2E Test Runner for Solargis Demo App",
+        description="E2E Test Runner for Mifulacm Demo App",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

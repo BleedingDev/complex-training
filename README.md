@@ -1,4 +1,4 @@
-# Solargis Demo App (Nx: Angular + FastAPI)
+# Mifulacm Demo App (Nx: Angular + FastAPI)
 
 ## Co potřebujete
 - Node.js 18+ (npm součástí)

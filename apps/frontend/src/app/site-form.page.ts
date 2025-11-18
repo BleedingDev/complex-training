@@ -1,14 +1,17 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { SitesService } from '@solargis-workspace/frontend-data-access';
-import { SiteFormComponent, SiteFormValue } from '@solargis-workspace/frontend-ui';
+import { CommonModule } from "@angular/common";
+import { Component, inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { SitesService } from "@mifulacm-workspace/frontend-data-access";
+import {
+	SiteFormComponent,
+	SiteFormValue,
+} from "@mifulacm-workspace/frontend-ui";
 
 @Component({
-  standalone: true,
-  selector: 'app-site-form-page',
-  imports: [CommonModule, SiteFormComponent],
-  template: `
+	standalone: true,
+	selector: "app-site-form-page",
+	imports: [CommonModule, SiteFormComponent],
+	template: `
     <div class="max-w-3xl mx-auto py-6 space-y-4" data-testid="site-form-page">
       <div class="flex items-center justify-start">
         <div>
@@ -24,19 +27,19 @@ import { SiteFormComponent, SiteFormValue } from '@solargis-workspace/frontend-u
   `,
 })
 export class SiteFormPage {
-  private service = inject(SitesService);
-  private router = inject(Router);
+	private service = inject(SitesService);
+	private router = inject(Router);
 
-  error: string | null = null;
+	error: string | null = null;
 
-  onSubmit(value: SiteFormValue): void {
-    this.error = null;
-    this.service.createSite$(value).subscribe({
-      next: () => this.router.navigate(['/sites']),
-      error: (err) => {
-        console.error('Create site failed', err);
-        this.error = 'Create site failed';
-      },
-    });
-  }
+	onSubmit(value: SiteFormValue): void {
+		this.error = null;
+		this.service.createSite$(value).subscribe({
+			next: () => this.router.navigate(["/sites"]),
+			error: (err) => {
+				console.error("Create site failed", err);
+				this.error = "Create site failed";
+			},
+		});
+	}
 }

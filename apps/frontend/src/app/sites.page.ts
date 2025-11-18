@@ -1,14 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { SitesService } from '@solargis-workspace/frontend-data-access';
-import { SiteListComponent } from '@solargis-workspace/frontend-ui';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit, inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { SitesService } from "@mifulacm-workspace/frontend-data-access";
+import { SiteListComponent } from "@mifulacm-workspace/frontend-ui";
 
 @Component({
-  standalone: true,
-  selector: 'app-sites-page',
-  imports: [CommonModule, SiteListComponent],
-  template: `
+	standalone: true,
+	selector: "app-sites-page",
+	imports: [CommonModule, SiteListComponent],
+	template: `
     <div class="space-y-5" data-testid="sites-page">
       <div class="flex items-center justify-between">
         <div>
@@ -33,22 +33,22 @@ import { SiteListComponent } from '@solargis-workspace/frontend-ui';
   `,
 })
 export class SitesPage implements OnInit {
-  private readonly service = inject(SitesService);
-  private readonly router = inject(Router);
+	private readonly service = inject(SitesService);
+	private readonly router = inject(Router);
 
-  sites = this.service.sites;
-  loading = this.service.loading;
-  error = this.service.error;
+	sites = this.service.sites;
+	loading = this.service.loading;
+	error = this.service.error;
 
-  ngOnInit(): void {
-    this.service.loadSites();
-  }
+	ngOnInit(): void {
+		this.service.loadSites();
+	}
 
-  onSelect(id: number): void {
-    this.router.navigate(['/sites', id]);
-  }
+	onSelect(id: number): void {
+		this.router.navigate(["/sites", id]);
+	}
 
-  onCreate(): void {
-    this.router.navigate(['/sites/new']);
-  }
+	onCreate(): void {
+		this.router.navigate(["/sites/new"]);
+	}
 }

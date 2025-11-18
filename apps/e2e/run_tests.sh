@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# E2E Test Runner Script for Solargis Demo App
+# E2E Test Runner Script for Mifulacm Demo App
 # Usage: ./run_tests.sh [options]
 #
 # Options:
@@ -45,7 +45,7 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --help)
-      echo "E2E Test Runner for Solargis Demo App"
+      echo "E2E Test Runner for Mifulacm Demo App"
       echo ""
       echo "Usage: ./run_tests.sh [options]"
       echo ""

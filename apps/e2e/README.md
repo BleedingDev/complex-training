@@ -1,6 +1,6 @@
 # E2E Tests (Robot Framework Browser)
 
-End-to-end checks for the Solargis demo (Angular frontend + FastAPI backend) using Robot Framework Browser (Playwright).
+End-to-end checks for the Mifulacm demo (Angular frontend + FastAPI backend) using Robot Framework Browser (Playwright).
 
 ## Prerequisites
 - Node.js 18+

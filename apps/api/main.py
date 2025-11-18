@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from .models import Forecast, Site, SiteCreate
 from .seed import add_site, generate_forecast_for_site, get_seed_sites
 
-app = FastAPI(title="Solargis Demo API")
+app = FastAPI(title="Mifulacm Demo API")
 
 
 @app.get("/health")
