@@ -1,0 +1,29 @@
+services:
+  api:
+    build:
+      context: .
+      target: api
+    command: uv run uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./apps/api:/app/api
+      - ./apps/pyproject.toml:/app/pyproject.toml
+      - ./apps/uv.lock:/app/uv.lock
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: .
+      target: node-base
+    working_dir: /workspace
+    command: npx nx serve frontend -- --host=0.0.0.0 --port=4200
+    environment:
+      NX_DAEMON: "false"
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./:/workspace
+      - /workspace/node_modules
+    depends_on:
+      - api
+    ports:
+      - "4200:4200"

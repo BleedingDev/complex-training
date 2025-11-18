@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+tmp
+.nx
+.angular
+.git
+.vscode
+.venv
+reports
+**/__pycache__
+*.log

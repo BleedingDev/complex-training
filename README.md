@@ -21,6 +21,20 @@ npx nx serve api
 npx nx serve frontend -- --host=0.0.0.0 --port=4200
 ```
 
+## Docker (nejjednodušší způsob)
+- Potřebujete jen Docker + Docker Compose.
+- Spustit obě aplikace: `docker compose up --build`
+  - FE: http://localhost:4200
+  - API: http://localhost:8000
+- Spustit všechny testy: `docker compose run --rm tests`
+  - Použije stejné image; pokud změníte závislosti, přidejte `--build`.
+
+### Docker vývoj s hot reloading (ekvivalent `npm run dev`)
+- Spusťte: `docker compose -f docker-compose.dev.yml up --build`
+- Frontend: http://localhost:4200 (Nx dev server s HMR)
+- API: http://localhost:8000 (uvicorn --reload)
+- Konec: `Ctrl+C` a `docker compose -f docker-compose.dev.yml down`
+
 ## Testy
 - FE unit: `npx nx test frontend`
 - FE data-access: `npx nx test frontend-data-access`
