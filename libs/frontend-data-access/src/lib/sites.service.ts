@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Site, Forecast } from "@mifulacm-workspace/shared-types";
+import { Site, Forecast, SiteStatus } from "@mifulacm-workspace/shared-types";
 
 @Injectable({ providedIn: "root" })
 export class SitesService {
@@ -16,8 +16,9 @@ export class SitesService {
 	readonly loading = this.loadingSignal.asReadonly();
 	readonly error = this.errorSignal.asReadonly();
 
-	getSites$(): Observable<Site[]> {
-		return this.http.get<Site[]>(`${this.baseUrl}/sites`);
+	getSites$(status?: SiteStatus): Observable<Site[]> {
+		const query = status ? `?status=${status}` : "";
+		return this.http.get<Site[]>(`${this.baseUrl}/sites${query}`);
 	}
 
 	getSite$(id: number): Observable<Site> {
@@ -35,10 +36,10 @@ export class SitesService {
 		return this.http.post<Site>(`${this.baseUrl}/sites`, payload);
 	}
 
-	loadSites(): void {
+	loadSites(status?: SiteStatus): void {
 		this.loadingSignal.set(true);
 		this.errorSignal.set(null);
-		this.getSites$().subscribe({
+		this.getSites$(status).subscribe({
 			next: (sites) => {
 				this.sitesSignal.set(sites);
 				this.loadingSignal.set(false);

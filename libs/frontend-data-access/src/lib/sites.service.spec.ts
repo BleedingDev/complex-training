@@ -32,4 +32,19 @@ describe('SitesService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockSites);
   });
+
+  it('should fetch sites filtered by status', () => {
+    const mockSites = [
+      { id: 2, name: 'B', location: 'Loc', capacity_kw: 20, status: 'maintenance' },
+    ];
+
+    service.getSites$('maintenance').subscribe((res) => {
+      expect(res.length).toBe(1);
+      expect(res[0].status).toBe('maintenance');
+    });
+
+    const req = httpMock.expectOne('/api/sites?status=maintenance');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockSites);
+  });
 });

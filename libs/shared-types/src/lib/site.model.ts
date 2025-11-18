@@ -1,9 +1,11 @@
+export type SiteStatus = 'active' | 'maintenance' | 'offline';
+
 export interface Site {
   id: number;
   name: string;
   location: string;
   capacity_kw: number;
-  status: 'active' | 'maintenance' | 'offline';
+  status: SiteStatus;
 }
 
 export interface Forecast {
