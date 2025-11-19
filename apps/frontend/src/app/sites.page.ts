@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { SitesService } from "@mifulacm-workspace/frontend-data-access";
 import { SiteListComponent } from "@mifulacm-workspace/frontend-ui";
+import { SiteStatus } from "@mifulacm-workspace/shared-types";
 
 @Component({
 	standalone: true,
@@ -23,6 +24,52 @@ import { SiteListComponent } from "@mifulacm-workspace/frontend-ui";
           + Add Site
         </button>
       </div>
+      <div class="flex gap-2 mb-4">
+        <button
+          (click)="onFilterChange(null)"
+          [class.bg-accent]="selectedFilter() === null"
+          [class.text-surface]="selectedFilter() === null"
+          [class.bg-surface-dim]="selectedFilter() !== null"
+          [class.text-text]="selectedFilter() !== null"
+          class="rounded-lg px-3 py-1.5 text-sm font-medium transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+          data-testid="filter-all"
+        >
+          All
+        </button>
+        <button
+          (click)="onFilterChange('active')"
+          [class.bg-accent]="selectedFilter() === 'active'"
+          [class.text-surface]="selectedFilter() === 'active'"
+          [class.bg-surface-dim]="selectedFilter() !== 'active'"
+          [class.text-text]="selectedFilter() !== 'active'"
+          class="rounded-lg px-3 py-1.5 text-sm font-medium transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+          data-testid="filter-active"
+        >
+          Active
+        </button>
+        <button
+          (click)="onFilterChange('maintenance')"
+          [class.bg-accent]="selectedFilter() === 'maintenance'"
+          [class.text-surface]="selectedFilter() === 'maintenance'"
+          [class.bg-surface-dim]="selectedFilter() !== 'maintenance'"
+          [class.text-text]="selectedFilter() !== 'maintenance'"
+          class="rounded-lg px-3 py-1.5 text-sm font-medium transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+          data-testid="filter-maintenance"
+        >
+          Maintenance
+        </button>
+        <button
+          (click)="onFilterChange('offline')"
+          [class.bg-accent]="selectedFilter() === 'offline'"
+          [class.text-surface]="selectedFilter() === 'offline'"
+          [class.bg-surface-dim]="selectedFilter() !== 'offline'"
+          [class.text-text]="selectedFilter() !== 'offline'"
+          class="rounded-lg px-3 py-1.5 text-sm font-medium transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+          data-testid="filter-offline"
+        >
+          Offline
+        </button>
+      </div>
       <lib-site-list
         [sites]="sites() ?? []"
         [loading]="loading()"
@@ -39,6 +86,7 @@ export class SitesPage implements OnInit {
 	sites = this.service.sites;
 	loading = this.service.loading;
 	error = this.service.error;
+	selectedFilter = signal<SiteStatus | null>(null);
 
 	ngOnInit(): void {
 		this.service.loadSites();
@@ -50,5 +98,10 @@ export class SitesPage implements OnInit {
 
 	onCreate(): void {
 		this.router.navigate(["/sites/new"]);
+	}
+
+	onFilterChange(status: SiteStatus | null): void {
+		this.selectedFilter.set(status);
+		this.service.loadSites(status ?? undefined);
 	}
 }

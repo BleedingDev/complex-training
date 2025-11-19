@@ -2,7 +2,7 @@ from datetime import date
 
 from fastapi import FastAPI, HTTPException
 
-from .models import Forecast, Site, SiteCreate
+from .models import Forecast, Site, SiteCreate, SiteStatus
 from .seed import add_site, generate_forecast_for_site, get_seed_sites
 
 app = FastAPI(title="Mifulacm Demo API")
@@ -14,8 +14,11 @@ def health() -> dict:
 
 
 @app.get("/api/sites", response_model=list[Site])
-def list_sites() -> list[Site]:
-    return get_seed_sites()
+def list_sites(status: SiteStatus | None = None) -> list[Site]:
+    sites = get_seed_sites()
+    if status is not None:
+        sites = [s for s in sites if s.status == status]
+    return sites
 
 
 @app.get("/api/sites/{site_id}", response_model=Site)
