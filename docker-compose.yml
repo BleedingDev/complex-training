@@ -20,4 +20,5 @@ services:
       context: .
       target: tests
     entrypoint: ["/bin/bash", "-lc"]
+
     command: "npx nx test frontend frontend-data-access api"
